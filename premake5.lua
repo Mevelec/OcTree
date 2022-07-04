@@ -56,10 +56,14 @@ function includeCatch()
 
 end
 
-project "OcTreeLib_Tests"
+project "OcTree_Tests"
 	kind "ConsoleApp"
 
 	files "Projects/OcTree_Tests/**"
 
 	includeCatch()
 	useOcTreeLib()
+
+	postbuildcommands { 
+		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"
+	}
