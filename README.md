@@ -1,5 +1,9 @@
-https://github.com/prateekchandan/Advanced-CG-High-Resolution-Sparse-Voxel-DAGs/tree/master/code
+## Project generated with premake5
 https://github.com/premake/premake-core/wiki/Tutorial-Premake-example-with-GLFW-and-OpenGL
+### Install : Linux 
+need to dowload and extract : https://premake.github.io/
+in `/bin/premake5`
+
 ## Tests
-use Catch
-https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md#top
+Tests use the simple library `doctest`
+https://github.com/doctest/doctest
