@@ -1,4 +1,4 @@
-workspace "OcTree"
+workspace "Chunk"
 	-- We set the location of the files Premake will generate
 	location "Generated"
 
@@ -37,32 +37,44 @@ workspace "OcTree"
 	objdir ("build/obj/%{prj.name}/%{cfg.longname}")
    
 
-project "OcTree"
+
+function includeDocTests()
+	includedirs "Libraries/DocTests"
+end
+
+function includeLibmorton()
+	includedirs "Libraries/libmorton/include"
+end
+
+project "Chunk"
 	kind "StaticLib"
 
 	files
 	{
-		"Projects/OcTree/**"
+		"Projects/Chunk/**"
 	}
 
-function useOcTreeLib()
-	includedirs "Projects/OcTree"
-	links "OcTree"
+	includeLibmorton()
+
+
+function useChunkLib()
+	includedirs "Projects/Chunk"
+	links "Chunk"
+	includeLibmorton()
 end
 
--- We will use this function to include Catch
-function includeCatch()
-	includedirs "Libraries/DocTests"
 
-end
 
-project "OcTree_Tests"
+project "Chunk_Tests"
 	kind "ConsoleApp"
 
-	files "Projects/OcTree_Tests/**"
+	files 
+	{
+		"Projects/Chunk_Tests/**"
+	}
 
-	includeCatch()
-	useOcTreeLib()
+	includeDocTests()
+	useChunkLib()
 
 	postbuildcommands { 
 		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"

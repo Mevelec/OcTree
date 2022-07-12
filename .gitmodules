@@ -1,0 +1,3 @@
+[submodule "Libraries/libmorton"]
+	path = Libraries/libmorton
+	url = https://github.com/Forceflow/libmorton.git

@@ -14,9 +14,4 @@ namespace Chunk {
 		//get Dimention of chunck (is square shapped)
  		virtual int getDimention() = 0;
 	};
-
-
-	unsigned int factorial( unsigned int number ) {
-		return number <= 1 ? number : factorial(number-1)*number;
-	}
 }

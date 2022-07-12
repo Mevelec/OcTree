@@ -10,6 +10,7 @@ namespace Chunk {
 		Node()
 		{
 			this->childs = nullptr;
+			this->data = {};
 		}
 	public:
 		T data;
