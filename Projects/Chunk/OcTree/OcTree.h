@@ -48,7 +48,7 @@ namespace Chunk {
 		int depth;
 
 		void split(Node<T>& node) {
-			node.childs = new Node<T>[8];
+			node.split();
 		}
 
 		void setNode(T value, uint_fast16_t x, uint_fast16_t y, uint_fast16_t z, int depthSeek)
