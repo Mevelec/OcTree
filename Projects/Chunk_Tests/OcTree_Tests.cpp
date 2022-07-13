@@ -6,7 +6,7 @@
 TEST_CASE("NodeTest") {
     Chunk::Node<int> node(1);
     SUBCASE("Test constructor") {
-        CHECK(node.get() == 1);
+        CHECK(node.data() == 1);
         CHECK(node.childs() == nullptr);
         CHECK(node.needReduce() == false);
     }
@@ -14,17 +14,17 @@ TEST_CASE("NodeTest") {
     SUBCASE("Test split and reduce") {
         node.split();
         CHECK(node.needReduce() == true);
-        CHECK(node.childs()[0].get() == 1);
+        CHECK(node.childs()[0].data() == 1);
 
-        node.childs()[0].set() = 2;
+        node.childs()[0].set(2);
         CHECK(node.needReduce() == false);
 
-        node.childs()[0].set() = 1;
+        node.childs()[0].set(1);
         CHECK(node.needReduce() == true);
 
         node.reduce();
         CHECK(node.needReduce() == false);
-        CHECK(node.get() == 1);
+        CHECK(node.data() == 1);
         CHECK(node.childs() == nullptr);
         CHECK(node.needReduce() == false);
     }

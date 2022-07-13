@@ -7,7 +7,7 @@ namespace Chunk {
 	{
 	public:
 		// get value at given position
-		virtual T& get(int posx, int posy, int posz) = 0;
+		virtual const T& get(int posx, int posy, int posz) = 0;
 		// set value at given position
 		virtual void set(T value, int posx, int posy, int posz) = 0;
 

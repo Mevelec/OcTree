@@ -27,12 +27,12 @@ namespace Chunk {
 		inline int getDimention() override { return pow(2, this->depth); }
 
 
-		virtual T& get(int x, int y, int z) override {
+		virtual const T& get(int x, int y, int z) override {
 			assert( x >= 0 && x < this->getDimention() );
 			assert( y >= 0 && y < this->getDimention() );
 			assert( z >= 0 && z < this->getDimention() );
 
-			return this->getNode(x, y, z, 0).data;
+			return this->getNode(x, y, z, 0).data();
 		};
 		virtual void set(T value, int x, int y, int z) override {
 			assert( x >= 0 && x < this->getDimention() );
@@ -57,15 +57,15 @@ namespace Chunk {
 
 			int depth = this->depth;
 			Node<T>* node = &this->root;
-			while (depth > depthSeek && !(node->childs == nullptr && node->data == value) )
+			while (depth > depthSeek && !(node->childs() == nullptr && node->data() == value) )
 			{
-				if(node->childs == nullptr){
+				if(node->childs() == nullptr){
 					split(*node);
 				}
 				depth--;
-				node = &(*node).childs[(mortonCode >> 3 * depth) & 7];
+				node = &(*node).childs()[(mortonCode >> 3 * depth) & 7];
 			}
-			node->data = value;
+			node->set(value);
 		}
 
 		Node<T>& getNode(uint_fast16_t x, uint_fast16_t y, uint_fast16_t z, int depthSeek)
@@ -74,10 +74,10 @@ namespace Chunk {
 
 			int depth = this->depth;
 			Node<T>* node = &this->root;
-			while (depth > depthSeek && node->childs != nullptr)
+			while (depth > depthSeek && node->childs() != nullptr)
 			{
 				depth--;
-				node = &(*node).childs[(mortonCode >> 3 * depth) & 7];
+				node = &(*node).childs()[(mortonCode >> 3 * depth) & 7];
 
 			}
 			return (*node);

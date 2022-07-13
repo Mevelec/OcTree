@@ -11,70 +11,70 @@ namespace Chunk {
 	public:
 		Node(const T& value)
 		{
-			this->childs = nullptr;
-			this->data = value;
+			this->_childs = nullptr;
+			this->_data = value;
 		}
 		Node()
 		{
-			this->childs = nullptr;
-			this->data = {};
+			this->_childs = nullptr;
+			this->_data = {};
 		}
 
 		~Node() {
-			if(this->childs != nullptr) {
-				delete[] this->childs;
+			if(this->_childs != nullptr) {
+				delete[] this->_childs;
 			}
 		}
 
 		void reduce(){
 			if(needReduce()){
-				this->data = this->childs[0].data;
-				delete[] this->childs;
-				this->childs = nullptr;
+				this->_data = this->_childs[0]._data;
+				delete[] this->_childs;
+				this->_childs = nullptr;
 			}
 		}
 
 		bool needReduce(){
-			if(this->childs == nullptr) {
+			if(this->_childs == nullptr) {
 				return false;
 			}
 			else {
-				return  this->childs[0].data == this->childs[1].data &&
-						this->childs[0].data == this->childs[2].data &&
-						this->childs[0].data == this->childs[3].data &&
-						this->childs[0].data == this->childs[4].data &&
-						this->childs[0].data == this->childs[5].data &&
-						this->childs[0].data == this->childs[6].data &&
-						this->childs[0].data == this->childs[7].data;
+				return  this->_childs[0]._data == this->_childs[1]._data &&
+						this->_childs[0]._data == this->_childs[2]._data &&
+						this->_childs[0]._data == this->_childs[3]._data &&
+						this->_childs[0]._data == this->_childs[4]._data &&
+						this->_childs[0]._data == this->_childs[5]._data &&
+						this->_childs[0]._data == this->_childs[6]._data &&
+						this->_childs[0]._data == this->_childs[7]._data;
 			}
 		}
 
 		void split(){
-			childs = new Node<T>[8];
-			this->childs[0].data = this->data;
-			this->childs[1].data = this->data;
-			this->childs[2].data = this->data;
-			this->childs[3].data = this->data; 
-			this->childs[4].data = this->data; 
-			this->childs[5].data = this->data; 
-			this->childs[6].data = this->data; 
-			this->childs[7].data = this->data; 
+			_childs = new Node<T>[8];
+			this->_childs[0]._data = this->_data;
+			this->_childs[1]._data = this->_data;
+			this->_childs[2]._data = this->_data;
+			this->_childs[3]._data = this->_data; 
+			this->_childs[4]._data = this->_data; 
+			this->_childs[5]._data = this->_data; 
+			this->_childs[6]._data = this->_data; 
+			this->_childs[7]._data = this->_data; 
 		}
 		
-		const T& get(){
-			return data;
+		const T& data(){
+			return _data;
 		}
 
-		void set(){
-			return data;
+		void set(const T& v){
+			_data = v;
 		}
 
 		Node<T>* childs(){
-			return childs;
+			return _childs;
 		}
 	
 	private:
-		T data;
-		Node<T>* childs;
+		T _data;
+		Node<T>* _childs;
 	};
 }
