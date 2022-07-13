@@ -51,14 +51,14 @@ project "Chunk"
 
 	files
 	{
-		"Projects/Chunk/**"
+		"Projects/Chunk/Chunk/**"
 	}
 
 	includeLibmorton()
 
 
 function useChunkLib()
-	includedirs "Projects/Chunk"
+	includedirs "Projects/Chunk/Chunk"
 	links "Chunk"
 	includeLibmorton()
 end
@@ -70,12 +70,44 @@ project "Chunk_Tests"
 
 	files 
 	{
-		"Projects/Chunk_Tests/**"
+		"Projects/Chunk/Chunk_Tests/**"
 	}
 
 	includeDocTests()
 	useChunkLib()
 
+	postbuildcommands { 
+		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"
+	}
+
+
+project "PointCloudExport"
+	kind "StaticLib"
+
+	files 
+	{
+		"Projects/PointCloudExport/PointCloudExport/**"
+	}
+
+	useChunkLib()
+
+function usePointCloudExportLib()
+	includedirs "Projects/PointCloudExport/PointCloudExport"
+	links "PointCloudExport"
+	useChunkLib()
+end
+
+project "PointCloudExport_Tests"
+	kind "ConsoleApp"
+
+	files 
+	{
+		"Projects/PointCloudExport/PointCloudExport_Tests/**"
+	}
+
+	usePointCloudExportLib()
+	includeDocTests()
+	
 	postbuildcommands { 
 		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"
 	}

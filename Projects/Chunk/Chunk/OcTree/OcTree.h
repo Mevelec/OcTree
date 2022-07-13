@@ -3,6 +3,7 @@
 #include "Node.h"
 #include <libmorton/morton.h>
 #include <assert.h>     /* assert */
+#include <stack>
 
 namespace Chunk {
 	template<class T>
@@ -56,16 +57,23 @@ namespace Chunk {
 			uint_fast32_t mortonCode = libmorton::morton3D_32_encode(this->getDimention() - x, y, z);
 
 			int depth = this->depth;
-			Node<T>* node = &this->root;
-			while (depth > depthSeek && !(node->childs() == nullptr && node->data() == value) )
+			std::stack<Node<T>*> stack;
+			stack.push(&this->root);
+			while (depth > depthSeek && !(stack.top()->childs() == nullptr && stack.top()->data() == value) )
 			{
-				if(node->childs() == nullptr){
-					split(*node);
+				if(stack.top()->childs() == nullptr){
+					split(*stack.top());
 				}
 				depth--;
-				node = &(*node).childs()[(mortonCode >> 3 * depth) & 7];
+				stack.push( &(*stack.top()).childs()[(mortonCode >> 3 * depth) & 7] );
 			}
-			node->set(value);
+			stack.top()->set(value);
+
+			// reduce if needed from last item
+			while(!stack.empty()){
+				stack.top()->reduce();
+				stack.pop();
+			}
 		}
 
 		Node<T>& getNode(uint_fast16_t x, uint_fast16_t y, uint_fast16_t z, int depthSeek)

@@ -13,10 +13,14 @@ TEST_CASE("NodeTest") {
     
     SUBCASE("Test split and reduce") {
         node.split();
+
         CHECK(node.needReduce() == true);
         CHECK(node.childs()[0].data() == 1);
 
         node.childs()[0].set(2);
+        CHECK(node.needReduce() == false);
+
+        node.reduce();
         CHECK(node.needReduce() == false);
 
         node.childs()[0].set(1);
