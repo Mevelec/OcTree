@@ -2,7 +2,7 @@
 https://github.com/premake/premake-core/wiki/Tutorial-Premake-example-with-GLFW-and-OpenGL
 ### Install : Linux 
 need to dowload and extract : https://premake.github.io/
-in `/bin/premake5`
+in `/usr/bin/premake5`
 
 ## Tests
 Tests use the simple library `doctest`
