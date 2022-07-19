@@ -46,6 +46,19 @@ function includeLibmorton()
 	includedirs "Libraries/libmorton/include"
 end
 
+project "Instumentor"
+	kind "StaticLib"
+	files
+	{
+		"Libraries/Instrumentor/**"
+	}
+function useInstumentorLib()
+	includedirs "Libraries/Instrumentor/"
+	links "Instumentor"
+	includeLibmorton()
+end
+	
+
 project "Chunk"
 	kind "StaticLib"
 
