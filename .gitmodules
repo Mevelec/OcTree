@@ -1,3 +1,6 @@
 [submodule "Libraries/libmorton"]
 	path = Libraries/libmorton
 	url = https://github.com/Forceflow/libmorton.git
+[submodule "Libraries/spdlog"]
+	path = Libraries/spdlog
+	url = https://github.com/gabime/spdlog

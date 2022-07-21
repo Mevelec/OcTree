@@ -2,8 +2,15 @@
 #include <doctest.h>
 #include <OcTree/OcTree.h>
 #include <iostream>
+#include <Profiler.h>
+#include <Logger.h>
+
+
 
 TEST_CASE("NodeTest") {
+    INIT();
+    PROFILER_BEGIN_SESSION("OctreeTest::NodeTest", "Profilling/NodeTest.json");
+
     Chunk::Node<int> node(1);
     SUBCASE("Test constructor") {
         CHECK(node.data() == 1);
@@ -32,10 +39,12 @@ TEST_CASE("NodeTest") {
         CHECK(node.childs() == nullptr);
         CHECK(node.needReduce() == false);
     }
+    PROFILER_END_SESSION();
 }
 
 TEST_CASE("OctreeTest") {
-
+    INIT();
+    PROFILER_BEGIN_SESSION("OctreeTest::OctreeTest", "Profilling/OctreeTest.json");
     SUBCASE("Test constructor") {
         for(int i = 0; i < 10; ++i){
             Chunk::OcTree<int> octree(i);
@@ -95,6 +104,7 @@ TEST_CASE("OctreeTest") {
             }
         }
     }
+    PROFILER_END_SESSION();
 }
 
 /*

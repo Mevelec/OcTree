@@ -1,6 +1,6 @@
-#include "instrumentor.h"
-
-namespace Instrumentor {
+#include "Profiler.h"
+#include <Logger.h>
+namespace Profiler {
 	Profiler::Profiler()
 		: currentSession(nullptr)
 	{
@@ -8,14 +8,15 @@ namespace Instrumentor {
 
 	void Profiler::beginSession(const std::string& name, const std::string& filepath)
 	{
-		std::lock_guard lock(this->mutex);
+		CORE_INFO("Profiler::BeginSession('{0}') with path('{1}').", name, filepath);
+		std::lock_guard<std::mutex> lock(this->mutex);
 		if (this->currentSession) {
 			// If there is already a current session, then close it before beginning new one.
 			// Subsequent profiling output meant for the original session will end up in the
 			// newly opened session instead.  That's better than having badly formatted
 			// profiling output.
-			if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
-				GE_CORE_ERROR("Profiler::BeginSession('{0}') when session '{1}' already open.", name, this->currentSession->name);
+			if (Logger::Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
+				CORE_ERROR("Profiler::BeginSession('{0}') when session '{1}' already open.", name, this->currentSession->name);
 			}
 			this->internalEndSession();
 		}
@@ -26,15 +27,15 @@ namespace Instrumentor {
 			this->writeHeader();
 		}
 		else {
-			if (Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
-				GE_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+			if (Logger::Log::GetCoreLogger()) { // Edge case: BeginSession() might be before Log::Init()
+				CORE_ERROR("Profiler could not open results file '{0}'.", filepath);
 			}
 		}
 	}
 
 	void Profiler::endSession()
 	{
-		std::lock_guard lock(this->mutex);
+		std::lock_guard<std::mutex> lock(this->mutex);
 		this->internalEndSession();
 	}
 
@@ -56,7 +57,7 @@ namespace Instrumentor {
 		json << "\"ts\":" << result.start.count();
 		json << "}";
 
-		std::lock_guard lock(this->mutex);
+		std::lock_guard<std::mutex> lock(this->mutex);
 		if (this->currentSession) {
 			this->outputStream << json.str();
 			this->outputStream.flush();
@@ -87,7 +88,7 @@ namespace Instrumentor {
 	}
 }
 
-namespace Instrumentor {
+namespace Profiler {
 	Timer::Timer(const char* name)
 		: name(name), stopped(false)
 	{

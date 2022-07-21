@@ -11,18 +11,25 @@ workspace "Chunk"
 	-- Configurations are often used to store some compiler / linker settings together.
 	-- The Debug configuration will be used by us while debugging.
 	-- The optimized Release configuration will be used when shipping the app.
-	configurations { "Debug", "Release" }
+	configurations { "Debug", "PerfTest", "Release"}
 
 	-- We use filters to set options, a new feature of Premake5.
 
-	-- We now only set settings for the Debug configuration
 	filter { "configurations:Debug" }
-		-- We want debug symbols in our debug config
+		defines "DEBUG"
+		defines "PROFILER"
+		runtime "Release"
 		symbols "On"
 
-	-- We now only set settings for Release
+	filter { "configurations:PerfTest" }
+		defines "RELEASE"
+		defines "PROFILER"
+		runtime "Release"
+		optimize "On"
+
 	filter { "configurations:Release" }
-		-- Release should be optimized
+		defines "RELEASE"
+		runtime "Release"
 		optimize "On"
 
 	-- Reset the filter for other settings
@@ -46,16 +53,36 @@ function includeLibmorton()
 	includedirs "Libraries/libmorton/include"
 end
 
-project "Instumentor"
+function includeSpdLog()
+	includedirs "Libraries/spdlog/include"
+end
+
+project "Logger"
 	kind "StaticLib"
 	files
 	{
-		"Libraries/Instrumentor/**"
+		"Libraries/Logger/**"
 	}
-function useInstumentorLib()
-	includedirs "Libraries/Instrumentor/"
-	links "Instumentor"
-	includeLibmorton()
+	includeSpdLog()
+
+function useLoggerLib()
+	includedirs "Libraries/Logger/"
+	links "Logger"
+	includeSpdLog()
+end
+
+project "Profiler"
+	kind "StaticLib"
+	files
+	{
+		"Libraries/Profiler/**"
+	}
+	useLoggerLib()
+
+function useProfilerLib()
+	includedirs "Libraries/Profiler/"
+	links "Profiler"
+	useLoggerLib()
 end
 	
 
@@ -68,12 +95,13 @@ project "Chunk"
 	}
 
 	includeLibmorton()
-
+	useProfilerLib()
 
 function useChunkLib()
 	includedirs "Projects/Chunk/Chunk"
 	links "Chunk"
 	includeLibmorton()
+	useProfilerLib()
 end
 
 
