@@ -10,6 +10,8 @@ namespace PointCloud
             PointCloud(int size);
             ~PointCloud();
 
-            bool exportPLY(const char* path);
+            void exportPLY(const char* path);
+            void exportOBJ(const char* path);
+
     };
 } // namespace PointCloudExport

@@ -138,6 +138,40 @@ function usePointCloudExportLib()
 	useChunkLib()
 end
 
+
+
+project "Chunk_Metrics"
+	kind "ConsoleApp"
+
+	files 
+	{
+		"Projects/Chunk/Chunk_Metrics/**"
+	}
+
+	includeDocTests()
+	useChunkLib()
+
+	postbuildcommands { 
+		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"
+	}
+
+
+project "PointCloudExport"
+	kind "StaticLib"
+
+	files 
+	{
+		"Projects/PointCloudExport/PointCloudExport/**"
+	}
+
+	useChunkLib()
+
+function usePointCloudExportLib()
+	includedirs "Projects/PointCloudExport/PointCloudExport"
+	links "PointCloudExport"
+	useChunkLib()
+end
+
 project "PointCloudExport_Tests"
 	kind "ConsoleApp"
 

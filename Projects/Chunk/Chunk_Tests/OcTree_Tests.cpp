@@ -2,13 +2,6 @@
 #include <doctest.h>
 #include <OcTree/OcTree.h>
 #include <iostream>
-#include <Profiler.h>
-#include <Logger.h>
-
-
-
-INIT();
-PROFILER_BEGIN_SESSION("OctreeTest::NodeTest", "Profilling/NodeTest.json");
 
 TEST_CASE("NodeTest") {
 
@@ -65,7 +58,6 @@ TEST_CASE("OctreeTest") {
                     CHECK(y < octree.getDimention());
                     CHECK(y < octree.getDimention());
                     {
-                        PROFILER_SCOPE("get in octree");
                         CHECK(octree.get(x, y, z) == 0);
                     }
                 }
@@ -106,7 +98,6 @@ TEST_CASE("OctreeTest") {
         }
     }
 }
-PROFILER_END_SESSION();
 
 /*
 ## tests
