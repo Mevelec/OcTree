@@ -98,7 +98,7 @@ namespace Profiler {
 
 	#define PROFILER_BEGIN_SESSION(name, filepath) ::Profiler::Profiler::Get().beginSession(name, filepath)
 	#define PROFILER_END_SESSION() ::Profiler::Profiler::Get().endSession()
-	#define PROFILER_SCOPE(name) ::Profiler::InstrumentationTimer timer##__LINE__(name);
+	#define PROFILER_SCOPE(name) ::Profiler::Timer timer##__LINE__(name);
 	#define PROFILER_FUNCTION() PROFILER_SCOPE(IN_FUNC_SIG)
 #else
 	#define PROFILER_BEGIN_SESSION(name, filepath)
