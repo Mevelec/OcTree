@@ -1,5 +1,6 @@
 #include "PointCloud.h"
 #include <fstream>
+#include <iostream>
 
 namespace PointCloud
 {
@@ -13,7 +14,7 @@ namespace PointCloud
     }
 
 
-    void createBox(std::ofstream& out, int pos[3], const float& size) {
+    void createBox(std::ofstream& out, int pos[3], const float& size, int color[3], int offset) {
         /*
             y
             | z
@@ -32,12 +33,12 @@ namespace PointCloud
             {-1, -1, -1}, // bottom left     front
             { 1, -1, -1}, // bottom right    front
             { 1,  1, -1}, // top    right    front
-            { 1, -1, -1}, // top    left     front
+            {-1,  1, -1}, // top    left     front
 
             {-1, -1,  1}, // bottom left     back
             { 1, -1,  1}, // bottom right    back
             { 1,  1,  1}, // top    right    back
-            { 1, -1,  1}, // top    left     back
+            {-1,  1,  1}, // top    left     back
 
         };
 
@@ -64,35 +65,46 @@ namespace PointCloud
         
         //write vertices
         for(size_t i = 0; i < 8; ++i){
-            out << "v " << verts[i][0]*size + pos[0]*size
-                << " "  << verts[i][1]*size + pos[1]*size 
-                << " "  << verts[i][2]*size + pos[2]*size 
-                << " "  << 0 
+            out << "v " << verts[i][0]*size + pos[0]*size*2
+                << " "  << verts[i][1]*size + pos[1]*size*2
+                << " "  << verts[i][2]*size + pos[2]*size*2
+                << " "  << float(color[0])/255.0
+                << " "  << float(color[1])/255.0
+                << " "  << float(color[2])/255.0
                 << "\n";
         }
         //write faces
         for(size_t i = 0; i < 12; ++i){
-            out << "f " << tris[i][0] << " " << tris[i][1] << " " << tris[i][2] << "\n";
+            out << "f " << tris[i][0]+1+offset << " " << tris[i][1]+1+offset << " " << tris[i][2]+1+offset << "\n";
         }
+        std::cout<<"pos[0] : "<<pos[0]<<"pos[1] : "<<pos[1]<<"pos[2] : "<<pos[2]<<std::endl;
     }
 
     void PointCloud::exportOBJ(const char* path){
         std::ofstream file(path);
-        float size = 1.0;
+        float size = 0.5;
         
         
         if (file.is_open())
         {
             file << "o cube\n";
 
-            int pos[] = {0, 0, 0};
-            for (; pos[0] < this->getDimention(); pos[0]++)
+            int pos[3];
+            int color[] = {0, 0, 0};
+            std::cout<<"DIMM = "<<this->getDimention()<<std::endl;
+            int offset = 0;
+            for (pos[0] = 0; pos[0] < this->getDimention(); ++pos[0])
             {
-                for (; pos[1] < this->getDimention(); pos[1]++)
+                for (pos[1] = 0; pos[1] < this->getDimention(); pos[1]++)
                 {
-                    for (; pos[2] < this->getDimention(); pos[2]++)
+                    for (pos[2] = 0; pos[2] < this->getDimention(); pos[2]++)
                     {
-                        createBox(file, pos, size);
+                        color[0] = (pos[0] == 0)? 0 : 255.0/this->getDimention()*pos[0];
+                        color[1] = (pos[1] == 0)? 0 : 255.0/this->getDimention()*pos[1];
+                        color[2] = (pos[2] == 0)? 0 : 255.0/this->getDimention()*pos[2];
+                        std::cout<<"color : "<<color[0]<<std::endl;
+                        createBox(file, pos, size, color, offset*8);
+                        offset++;
                     }
                 }
             }
@@ -124,7 +136,7 @@ namespace PointCloud
                     for (size_t z = 0; z < this->getDimention(); z++)
                     {
                         file << x <<" "<< y <<" "<< z; //pos
-                        file << " "<<this->get(x, y, z)<<"\n"; //value
+                        file << " "<<this->get(x, y, z).voxeltype<<"\n"; //value
                     }
                 }
             }
