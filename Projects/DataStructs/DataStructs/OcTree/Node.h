@@ -1,7 +1,7 @@
 #pragma once
 
 // Contains child pointers
-namespace Chunk {
+namespace DataStructs {
 
 	template<class T>
 	class Node

@@ -1,15 +1,15 @@
-#include "PointCloud.h"
+#include "World.h"
 #include <fstream>
 #include <iostream>
 
-namespace PointCloud
+namespace World
 {
-    PointCloud::PointCloud(int size) :
+    Chunk::Chunk(int size) :
         OcTree(size)
     {
     }
     
-    PointCloud::~PointCloud()
+    Chunk::~Chunk()
     {
     }
 
@@ -79,7 +79,7 @@ namespace PointCloud
         }
     }
 
-    void PointCloud::exportOBJ(const char* path, Exportmods mod){
+    void Chunk::exportOBJ(const char* path, Exportmods mod){
         std::ofstream file(path);
         float size = 0.5;
         
@@ -132,7 +132,7 @@ namespace PointCloud
         }
     }
 
-    void PointCloud::exportPLY(const char* path){
+    void Chunk::exportPLY(const char* path){
         std::ofstream file(path);
         if (file.is_open())
         {

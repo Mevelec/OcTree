@@ -1,13 +1,13 @@
 #pragma once
-#include "Chunk.h"
+#include "DataStructs.h"
 #include "Node.h"
 #include <libmorton/morton.h>
 #include <assert.h>     /* assert */
 #include <stack>
 
-namespace Chunk {
+namespace DataStructs {
 	template<class T>
-	class OcTree : public Chunk<T>
+	class OcTree : public DataStructs<T>
 	{
 	public:
 		OcTree(int depth, const T& default_v)

@@ -1,8 +1,8 @@
 #pragma once
 
-namespace Chunk {
+namespace DataStructs {
 	template <class T>
-	class Chunk
+	class DataStructs
 	{
 	public:
 		// get value at given position

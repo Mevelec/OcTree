@@ -2,7 +2,7 @@
 
 #include <OcTree/OcTree.h>
 
-namespace PointCloud
+namespace World
 {
     
     //--------------------------------------------------------------
@@ -24,11 +24,11 @@ namespace PointCloud
     //--------------------------------------------------------------
     //                   PointCloud
     //--------------------------------------------------------------
-    class PointCloud : public Chunk::OcTree<Voxel>
+    class Chunk : public DataStructs::OcTree<Voxel>
     {
         public:
-            PointCloud(int size);
-            ~PointCloud();
+            Chunk(int size);
+            ~Chunk();
 
             void exportPLY(const char* path);
 

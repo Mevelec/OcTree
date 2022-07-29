@@ -1,4 +1,4 @@
-workspace "Chunk"
+workspace "World"
 	-- We set the location of the files Premake will generate
 	location "Generated"
 
@@ -86,101 +86,101 @@ function useProfilerLib()
 end
 	
 
-project "Chunk"
+project "DataStructs"
 	kind "StaticLib"
 
 	files
 	{
-		"Projects/Chunk/Chunk/**"
+		"Projects/DataStructs/DataStructs/**"
 	}
 
 	includeLibmorton()
 	useProfilerLib()
 
-function useChunkLib()
-	includedirs "Projects/Chunk/Chunk"
-	links "Chunk"
+function useDataStructsLib()
+	includedirs "Projects/DataStructs/DataStructs"
+	links "DataStructs"
 	includeLibmorton()
 	useProfilerLib()
 end
 
 
 
-project "Chunk_Tests"
+project "DataStructs_Tests"
 	kind "ConsoleApp"
 
 	files 
 	{
-		"Projects/Chunk/Chunk_Tests/**"
+		"Projects/DataStructs/DataStructs_Tests/**"
 	}
 
 	includeDocTests()
-	useChunkLib()
+	useDataStructsLib()
 
 	postbuildcommands { 
 		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"
 	}
 
 
-project "PointCloudExport"
+project "WorldExport"
 	kind "StaticLib"
 
 	files 
 	{
-		"Projects/PointCloudExport/PointCloudExport/**"
+		"Projects/WorldExport/WorldExport/**"
 	}
 
-	useChunkLib()
+	useDataStructsLib()
 
-function usePointCloudExportLib()
-	includedirs "Projects/PointCloudExport/PointCloudExport"
-	links "PointCloudExport"
-	useChunkLib()
+function useWorldExportLib()
+	includedirs "Projects/WorldExport/WorldExport"
+	links "WorldExport"
+	useDataStructsLib()
 end
 
 
 
-project "Chunk_Metrics"
+project "DataStructs_Metrics"
 	kind "ConsoleApp"
 
 	files 
 	{
-		"Projects/Chunk/Chunk_Metrics/**"
+		"Projects/DataStructs/DataStructs_Metrics/**"
 	}
 
 	includeDocTests()
-	useChunkLib()
+	useDataStructsLib()
 
 	postbuildcommands { 
 		"../build/bin/%{prj.name}/%{cfg.longname}/%{prj.name}"
 	}
 
 
-project "PointCloudExport"
+project "WorldExport"
 	kind "StaticLib"
 
 	files 
 	{
-		"Projects/PointCloudExport/PointCloudExport/**"
+		"Projects/WorldExport/WorldExport/**"
 	}
 
-	useChunkLib()
+	useDataStructsLib()
 
-function usePointCloudExportLib()
-	includedirs "Projects/PointCloudExport/PointCloudExport"
-	links "PointCloudExport"
-	useChunkLib()
+function useWorldExportLib()
+	includedirs "Projects/WorldExport/WorldExport"
+	links "WorldExport"
+	useDataStructsLib()
 end
 
-project "PointCloudExport_Tests"
+project "WorldExport_Tests"
 	kind "ConsoleApp"
 
 	files 
 	{
-		"Projects/PointCloudExport/PointCloudExport_Tests/**"
+		"Projects/WorldExport/WorldExport_Tests/**"
 	}
 
-	usePointCloudExportLib()
+	useWorldExportLib()
 	includeDocTests()
 	
 	postbuildcommands { 

@@ -5,7 +5,7 @@
 
 TEST_CASE("NodeTest") {
 
-    Chunk::Node<int> node(1);
+    DataStructs::Node<int> node(1);
     SUBCASE("Test constructor") {
         CHECK(node.data() == 1);
         CHECK(node.childs() == nullptr);
@@ -39,14 +39,14 @@ TEST_CASE("OctreeTest") {
 
     SUBCASE("Test constructor") {
         for(int i = 0; i < 10; ++i){
-            Chunk::OcTree<int> octree(i);
+            DataStructs::OcTree<int> octree(i);
             CHECK(octree.getDepth() == i);
             CHECK(octree.getDimention() == pow(2, i));
         }
     }
 
     SUBCASE("Test Getter simple") {
-        Chunk::OcTree<int> octree(1);
+        DataStructs::OcTree<int> octree(1);
         CHECK(octree.getDepth() == 1);
         CHECK(octree.getDimention() == 2);
 
@@ -67,7 +67,7 @@ TEST_CASE("OctreeTest") {
 
     SUBCASE("Test cases") {
         for(int i = 1; i < 2; ++i){
-            Chunk::OcTree<int> octree(i);
+            DataStructs::OcTree<int> octree(i);
             SUBCASE("Test init") {
                 CHECK(octree.getDepth() == i);
                 CHECK(octree.getDimention() == pow(2, i));
@@ -102,9 +102,9 @@ TEST_CASE("OctreeTest") {
 /*
 ## tests
 
-tester chunk de taille 0
-tester chunk taille fixe
-tester chunk taille variable
+tester DataStructs de taille 0
+tester DataStructs taille fixe
+tester DataStructs taille variable
 tester diviser plus
 tester reduction 
 */
