@@ -19,5 +19,5 @@ TEST_CASE("NodeTest") {
     // }
 
     pointCloud.exportPLY("test.ply");
-    pointCloud.exportOBJ("test.obj");
+    pointCloud.exportOBJ("test.obj", PointCloud::PointCloud::Exportmods::posColor);
 }

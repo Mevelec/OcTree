@@ -31,7 +31,12 @@ namespace PointCloud
             ~PointCloud();
 
             void exportPLY(const char* path);
-            void exportOBJ(const char* path);
+
+            enum Exportmods {
+                posColor = 0,
+                voxelColor = 1
+            };
+            void exportOBJ(const char* path, Exportmods mod = Exportmods::voxelColor);
     };
 
 } // namespace PointCloudExport

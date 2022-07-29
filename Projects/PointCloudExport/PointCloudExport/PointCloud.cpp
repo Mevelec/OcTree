@@ -77,13 +77,11 @@ namespace PointCloud
         for(size_t i = 0; i < 12; ++i){
             out << "f " << tris[i][0]+1+offset << " " << tris[i][1]+1+offset << " " << tris[i][2]+1+offset << "\n";
         }
-        std::cout<<"pos[0] : "<<pos[0]<<"pos[1] : "<<pos[1]<<"pos[2] : "<<pos[2]<<std::endl;
     }
 
-    void PointCloud::exportOBJ(const char* path){
+    void PointCloud::exportOBJ(const char* path, Exportmods mod){
         std::ofstream file(path);
         float size = 0.5;
-        
         
         if (file.is_open())
         {
@@ -99,10 +97,28 @@ namespace PointCloud
                 {
                     for (pos[2] = 0; pos[2] < this->getDimention(); pos[2]++)
                     {
-                        color[0] = (pos[0] == 0)? 0 : 255.0/this->getDimention()*pos[0];
-                        color[1] = (pos[1] == 0)? 0 : 255.0/this->getDimention()*pos[1];
-                        color[2] = (pos[2] == 0)? 0 : 255.0/this->getDimention()*pos[2];
-                        std::cout<<"color : "<<color[0]<<std::endl;
+                        if(mod == Exportmods::posColor)
+                        {
+                            color[0] = (pos[0] == 0)? 0 : 255.0/this->getDimention()*pos[0];
+                            color[1] = (pos[1] == 0)? 0 : 255.0/this->getDimention()*pos[1];
+                            color[2] = (pos[2] == 0)? 0 : 255.0/this->getDimention()*pos[2];
+                        }
+                        else {
+                            switch (this->get(pos[0], pos[1], pos[2]).voxeltype)
+                            {
+                            case VoxelType::STONE :
+                                color[0] = 125;
+                                color[1] = 125;
+                                color[2] = 125;
+                                break;
+                            
+                            default:
+                                color[0] = 255;
+                                color[1] = 0;
+                                color[2] = 255;
+                                break;
+                            }
+                        }
                         createBox(file, pos, size, color, offset*8);
                         offset++;
                     }
