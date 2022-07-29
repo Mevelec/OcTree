@@ -79,6 +79,40 @@ namespace World
         }
     }
 
+    void Chunk::exportBuffer(int version){
+        /*
+        void CreateMeshSection_LinearColor
+        (
+            int32 SectionIndex,
+            const TArray< FVector > & Vertices, <=> array[nbvertex * 3]
+            const TArray< int32 > & Triangles, <=> array[nbtris * 3 (3 by face)]
+            const TArray< FVector > & Normals, <=> array[nbvertex * 3]
+            const TArray< FVector2D > & UV0, <=> array[nbvertex * 2]
+            const TArray< FVector2D > & UV1, <=> array[nbvertex * 2]
+            const TArray< FVector2D > & UV2, <=> array[nbvertex * 2]
+            const TArray< FVector2D > & UV3, <=> array[nbvertex * 2]
+            const TArray< FLinearColor > & VertexColors, <=> array[nbvertex * 4] : arbg
+            const TArray< FProcMeshTangent > & Tangents, <=> array[nbvertex * 3]
+            bool bCreateCollision
+        ) 
+        */
+        float size = 0.5;
+        for (pos[0] = 0; pos[0] < this->getDimention(); ++pos[0])
+        {
+            for (pos[1] = 0; pos[1] < this->getDimention(); pos[1]++)
+            {
+                for (pos[2] = 0; pos[2] < this->getDimention(); pos[2]++)
+                {
+                    color[0] = (pos[0] == 0)? 0 : 255.0/this->getDimention()*pos[0];
+                    color[1] = (pos[1] == 0)? 0 : 255.0/this->getDimention()*pos[1];
+                    color[2] = (pos[2] == 0)? 0 : 255.0/this->getDimention()*pos[2];
+                    createBox(file, pos, size, color, offset*8);
+                    offset++;
+                }
+            }
+        }
+    }
+
     void Chunk::exportOBJ(const char* path, Exportmods mod){
         std::ofstream file(path);
         float size = 0.5;
@@ -102,24 +136,27 @@ namespace World
                             color[0] = (pos[0] == 0)? 0 : 255.0/this->getDimention()*pos[0];
                             color[1] = (pos[1] == 0)? 0 : 255.0/this->getDimention()*pos[1];
                             color[2] = (pos[2] == 0)? 0 : 255.0/this->getDimention()*pos[2];
+                            createBox(file, pos, size, color, offset*8);
                         }
-                        else {
+                        else if(mod ==  Exportmods::voxelColor) {
                             switch (this->get(pos[0], pos[1], pos[2]).voxeltype)
                             {
                             case VoxelType::STONE :
                                 color[0] = 125;
                                 color[1] = 125;
                                 color[2] = 125;
+                                createBox(file, pos, size, color, offset*8);
                                 break;
-                            
+                            case VoxelType::AIR :
+                                break;
                             default:
                                 color[0] = 255;
                                 color[1] = 0;
                                 color[2] = 255;
+                                createBox(file, pos, size, color, offset*8);
                                 break;
                             }
                         }
-                        createBox(file, pos, size, color, offset*8);
                         offset++;
                     }
                 }

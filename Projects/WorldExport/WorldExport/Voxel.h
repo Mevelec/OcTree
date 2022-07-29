@@ -4,8 +4,8 @@ namespace World
     //                   Voxel
     //--------------------------------------------------------------
     enum VoxelType {
+        AIR = 0,
         STONE = 1,
-        DEFAULT = 0
     };
 
     class Voxel 
